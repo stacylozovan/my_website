@@ -24,12 +24,62 @@ The web application consists of a basic "Hello, World!" page.
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello, World! I am Anastasiia Lozovan</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            background-image: url('https://source.unsplash.com/featured/?nature,water'); /* Placeholder for background image */
+            background-size: cover;
+            background-position: center;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .link-button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 20px;
+            background-color: #0077b5;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .link-button:hover {
+            background-color: #005691;
+            transform: translateY(-2px);
+        }
+        .github {
+            background-color: #333;
+        }
+        .github:hover {
+            background-color: #212121;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, World! I am Anastasiia Lozovan</h1>
-</body>
+    <h1>Hello, World! I am Anastasiia Lozovan. How are you doing?</h1>
+    <a href="https://www.linkedin.com/in/anastasiia-lozovan-70182827a/" class="link-button">LinkedIn</a>
+    <a href="https://github.com/stacylozovan" class="link-button github">GitHub</a>
+</body> 
 </html>
+
 ```
+![Снимок экрана 2024-04-23 230209](https://github.com/stacylozovan/aws_task/assets/138717408/1793dd2b-6868-4e7b-a56a-14e8dd80ae6f)
+
+
 ## CI/CD Pipeline
 
 ### GitHub Actions Workflows
