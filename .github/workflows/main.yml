@@ -18,12 +18,13 @@ jobs:
 
     - name: Deploy via SSH
       uses: easingthemes/ssh-deploy@v2.1.6
-      with:
-        server: ${{ secrets.SERVER_IP }} 
-        username: ubuntu 
-        password: ${{ secrets.SSH_KEY_AWS }}  
-        localPath: "." 
-        remotePath: "/var/www/html"  
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY_AWS }}
+        REMOTE_HOST: ${{ secrets.SERVER_IP }}
+        REMOTE_USER: ubuntu
+        REMOTE_PORT: 22
+        SOURCE: "."
+        TARGET: "/var/www/html"
 
     - name: Restart Nginx
       run: sudo systemctl restart nginx
