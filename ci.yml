@@ -21,26 +21,34 @@ jobs:
           python-version: '3.8'
       
       - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install awscli -y
+        run: sudo apt-get update && sudo apt-get install awscli -y
+
+      - name: Make build.sh executable
+        run: chmod +x build.sh
 
       - name: Build
         run: ./build.sh
 
       - name: Run tests
-        run: echo "Running tests..." # Replace this with actual test commands
+        run: echo "Running tests..." # Add actual test commands here
 
       - name: Package
         run: tar -czvf application.tar.gz dist/
 
       - name: Configure AWS CLI
         run: |
-          aws configure set aws_access_key_id ${{ secrets.AKIA2UC3DZM3GF2OF423 }}
-          aws configure set aws_secret_access_key ${{ secrets.5ay8jPUEMYFIBQuRJPTKFdgPR74Kdq6ZO0w0yUSB }}
+          aws configure set aws_access_key_id ${{ AKIA2UC3DZM3GF2OF423}}
+          aws configure set aws_secret_access_key ${{ 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 }}
           aws configure set default.region eu-north-1
 
-      - name: Upload to AWS EC2
+      - name: Upload and Deploy to AWS EC2
+        env:
+          SSH_KEY: ${{ LS0tLS1CRUdJTiBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0KYjNCbGJuTnphQzFyWlhrdGRqRUFBQUFBQkc1dmJtVUFBQUFFYm05dVpRQUFBQUFBQUFBQkFBQUNGd0FBQUFkemMyZ3RjbgpOaEFBQUFBd0VBQVFBQUFnRUFzb3FSekhndW5RNG1mSWNsdm56dGRCUndUQUFGTzQ1N1I3TTR3MmZ2Tzl6MHBteXhNYjlWCkpkYmNxZXZqd2VkajBTK2xrYk5xbW5jY3FkRVNuVDkyT0dFNGE2OC9HY2Y0WS9Sb200SmVDRkprQWhQc1dMR2JhZFJpMEUKWkE2Y1J2enpwVDdpQkNOM1A0ZHJhWkFWREd6dHF6U2dQU25tUm02TERUZm5ibFRtTkhVNDhDc0NHVFNLWUxWdUM5TmltKwpzNUFFUmhMWXc0VEFVZjBvNnNRb3pTM1IvZXpoYytzTEwyTHhjREt5NWpweXdzcGNNcWVDNnZHdzN5Rkc2L1owdWNaMGQvCnlRdHFKWVZ6S1JnZ05NVUFpcGNsRmxOTzFDWVg0T0RDM3NWNW9ianU1eG9xanlsNEZVWWJFVEtzWlVDRWZHWFAwbGtWQWkKL2dPUzlXSHFQNjNTSk04RS8wV3A4NzJtQTg3OGo5bFFCSzZlNkZVWk8xdGtWNDN4MldvOVRuWXBYZVhsTmZaSTF0ZzhJOApveStuaUt3dmFWQjhJQ1RyZ3YrR09IVTh1NHBJc0tZbGRKb0VDUytadU9hcU1Ea1FnMHJITTI5aXpQK0huVUJxNzUxOEdHCjFwYjdaU2ExbHN6RE55MVg1Qk1ZZ3AxeklmOG01cFJocTE3OVdRZ0dJUUNzYnd6SHcvUDAxNCs1MDFGK21MQWJiS3JsQmwKdDd5aVpMRXF3R0k1NXhEcDlUL3hCdjdCUndJckcwM3RtU1JMQ2xWcVBPclcvaGhqQk01R1dqUTdLTEx5Ky9BQTFNb2ZMcwp4TlE4UXFycmhqRitjK3BKSmNnWVFndnYwVThKd0dGT2Nod3Ribi9iWXBDczAreU83RXpqbEdOTnRCdVJzMWhDb0ZSUTJrCk1BQUFkSXYzU09LTDkwamlnQUFBQUhjM05vTFhKellRQUFBZ0VBc29xUnpIZ3VuUTRtZkljbHZuenRkQlJ3VEFBRk80NTcKUjdNNHcyZnZPOXowcG15eE1iOVZKZGJjcWV2andlZGowUytsa2JOcW1uY2NxZEVTblQ5Mk9HRTRhNjgvR2NmNFkvUm9tNApKZUNGSmtBaFBzV0xHYmFkUmkwRVpBNmNSdnp6cFQ3aUJDTjNQNGRyYVpBVkRHenRxelNnUFNubVJtNkxEVGZuYmxUbU5IClU0OENzQ0dUU0tZTFZ1QzlOaW0rczVBRVJoTFl3NFRBVWYwbzZzUW96UzNSL2V6aGMrc0xMMkx4Y0RLeTVqcHl3c3BjTXEKZUM2dkd3M3lGRzYvWjB1Y1owZC95UXRxSllWektSZ2dOTVVBaXBjbEZsTk8xQ1lYNE9EQzNzVjVvYmp1NXhvcWp5bDRGVQpZYkVUS3NaVUNFZkdYUDBsa1ZBaS9nT1M5V0hxUDYzU0pNOEUvMFdwODcybUE4NzhqOWxRQks2ZTZGVVpPMXRrVjQzeDJXCm85VG5ZcFhlWGxOZlpJMXRnOEk4b3krbmlLd3ZhVkI4SUNUcmd2K0dPSFU4dTRwSXNLWWxkSm9FQ1MrWnVPYXFNRGtRZzAKckhNMjlpelArSG5VQnE3NTE4R0cxcGI3WlNhMWxzekROeTFYNUJNWWdwMXpJZjhtNXBSaHExNzlXUWdHSVFDc2J3ekh3LwpQMDE0KzUwMUYrbUxBYmJLcmxCbHQ3eWlaTEVxd0dJNTV4RHA5VC94QnY3QlJ3SXJHMDN0bVNSTENsVnFQT3JXL2hoakJNCjVHV2pRN0tMTHkrL0FBMU1vZkxzeE5ROFFxcnJoakYrYytwSkpjZ1lRZ3Z2MFU4SndHRk9jaHd0Ym4vYllwQ3MwK3lPN0UKempsR05OdEJ1UnMxaENvRlJRMmtNQUFBQURBUUFCQUFBQ0FDMjRDaW0veEwvMjlhZ0J1NHFSMXdSWWo0RUdxRkJkNWZldwpUeUxLcEpwQnRHeEJmUVp1SmxHd09ZVlJvRnJ3ODhDSFlQQjBieUhxeW00NTJYaG0zZEVHSkRwKy83dU1WM0RSRDFCekM3CjA1eTk0MFY5dEdiN09qN1VIRUc2OUEzQmpHcU9OYlkxbHIydjRiT0FiOE5reVYrRDlGeDFORUJvNGphYVVDc1NsbmhzWkEKNHNGVGQ3R3N3MDZWOGgzQ2h0RFlXaC9QaDY1WmVoNEVvOHVxTzRCKzhUMEN3YUM3V1h2aTdFeDh6dzdoZksyZ3dBZEFtZQplcnlFejY2bnhWK2dId2JiYWorREtzVTg3UVppNVN4ZUhndGZOT0lJcHpEd0tFRXZqUGNhdmxESldIUFpZWGlUZCtxS3J6CmV5TUM4bFhFZTJrb2NjeEtKd3ZBd29zUGJibys4Umt5d1pXUXZUeGN0MUE4L3Q5NHpnVWZpblhUZnVpWlU4Ykt6VWhqc0oKNlBXUkJPKzJVWXpweU1haitaN1hhVEpVSXJMRTdHbzNOUU41dzZMYUt5S1NMVElCVkNpZEdaRGZwdFRYSmNscTFaOVA3MApZeEN3UDByVnN0QVBudUwwWmUxRDQ4UEdGRytwS2c5Y2ZWSEhlYjhQQUxVcUt4czZhWXVEK0RFWVBmNXhrbDJsYjltdmUrCmVRVW5oQ2RYQW9iNDVxT3pkeFJnMnVzZzVEYnBzR0IrdWkxUG1qRnZiUkJZN2thQ3FFbW9LNGlGcWpZVlBuVVl5aEJWcUEKaXVaTWtBOUVrRzA5cEVnYlp0eUVhdVpma3cxMmVvajlPY0EvaFlyRDVOYm03MHVWNXY4Y1g2eWJ0RFBOL1lqKzJCV29BRgpEQ3l0b1FNakh3bHpvNzIzYnhBQUFCQVFET2Npbk8xejJhRmFGSzNTUmJrSm96R0RlTnA2TkJPK1N0YVRMSWg1Zk0vUi9hCmlGZFZVZGpqQ01LaUZnRTBDNFl6UkJYMFdwbHpvblNkYllMRU44Z3lIbzVVcE1CZTZFdUI3Uk10a2YwL0RTaW5GZnJDSlQKME14eW1qdTg3a0J1S0FUY2Z4UEk2TFlVVFB5MysvNGdvSUo3K2JKMjBpS0FkY0x1VnlLMis3Qm9ycVZjNFVyUi81aUJNcwpNaG1QQkhoSFRFQzJXdldiZm1ib1VsUTVtUWNHRXFQSzlsWFBQUEFhTE1qeXJaUnRlNkh1VlVjM3RJdkNtbnJrTnVNNUVoCmZzM3pqL3NJSWswS1dqRG1KeFNQU1UvUUthaUlxRkJvZ29CUGEvQnprUmN5UEZjOVVWUkVjcmNSWGMxZXhrYzk5S2xpODUKRDBFbU5ZS2V0L0hDdjhtbkFBQUJBUURtRDYxcGdLOXlxcVJ3YmtmaEtMVmxZV0JzSnpzdEpiQ0oxN25sZmJxeTJyRzhtNgpScUJWSjgvQUVzUVRZUkhIY1BzTkEzb1dGM3RqNHd5Ykh6RWJweVBpT3RWb1dua2pZOHY4WnlOemFwem4rQnRRMVUyTyt5CkJ6allPYmtrZ3dlTkZmQ2VPVzN2MENHc1EwbXUrcStkb3o1TTA1ZWw1Zi95RVJiUTV4aEVhczJ4cithLzBSdXV5ZVA5YXkKNXZFQ1dNa0tMY0N5TVdoTEM0QngrSnVQbW9TalhCOFhoYzJTMVd1bFBuQUJoT2crQnBTK1gyQWptdGc2WTZUMEluVmJpRgpPTHovUEcvYm4rRXZjRUw5ZmhuTzVQcThkTGgxNTFkQTZrWSs2QW1yai83SmNMSnhIYU92VmNQbWw4dzRkSlBHekhiQjkzCkpIQXFXY2xwdmF1V3dmQUFBQkFRREdxOXR2K0MzOEpEMDl1V0hjc2ZOcC9ub1NreXl2RUY4b0lMUkJtMld5RjM3YmJKamUKZzZpMTdQeFBsazloRlllRTNHNE9ZNzF1bVdmQ1JINjdQUjBlMTlDa2k2ME5kQ3VrTjNXK0tqVWgzQnNCQkZJKzQ3TGxVawp2dExibTMvOW0wT3JCdWNmbitQUFlBcHhmVTRIc0RnOEFieVE5NTNRWW9OTmxNaHg2ZU4zMXEyL1g3cWo3MnRJZlBpYnNjCmZwUmRhLzNyb0duOU4wNVNXcEtjbVNlU2R2L0FpMjV5S3l3VnlKcEJqWGRNeFp1YkhFQ0NhbUNIWHZHR2V5ZVJtZXpRUzQKWHJVZzZmTGEvMVF4YzRwNW42cWt6em5wQUxURlltcnVqazNTV1VNQW54S0NUM29JTHFJeFZtNldNcDBmaWFRZEVKT2IreApweGV5ai85c3FRMWRBQUFBRVdkcGRHaDFZaTFoWTNScGIyNHRhMlY1QVE9PQotLS0tLUVORCBPUEVOU1NIIFBSSVZBVEUgS0VZLS0tLS0K
+ }}
         run: |
-          scp -i /path/to/key.pem application.tar.gz ec2-user@your-instance.amazonaws.com:/var/www/html/
-          ssh -i /path/to/key.pem ec2-user@your-instance.amazonaws.com "tar -xzvf /var/www/html/application.tar.gz -C /var/www/html/"
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" | base64 --decode > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H your-instance.amazonaws.com >> ~/.ssh/known_hosts
+          scp -i ~/.ssh/id_rsa application.tar.gz ec2-user@your-instance.amazonaws.com:/var/www/html/
+          ssh -i ~/.ssh/id_rsa ec2-user@your-instance.amazonaws.com "tar -xzvf /var/www/html/application.tar.gz -C /var/www/html/"
