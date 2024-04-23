@@ -27,4 +27,4 @@ jobs:
         TARGET: "/var/www/html"
 
     - name: Restart Nginx
-      run: /var/www/html/mv index.html /var/www/html/index.nginx-debian.html 
+      run: sudo systemctl restart nginx
