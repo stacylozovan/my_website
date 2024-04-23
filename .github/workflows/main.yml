@@ -1,0 +1,38 @@
+# .github/workflows/ci.yml
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build web application
+      run: ./build.sh
+
+    - name: Run tests
+      run: echo "Running tests..." # Implement actual tests here
+
+    - name: Package application
+      run: tar -czvf application.tar.gz dist/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@v2
+      with:
+        name: application.tar.gz
+    
+    - name: Deploy to AWS EC2
+      run: |
+        echo "Deploy script runs here" # Use AWS CLI or SSH to deploy
