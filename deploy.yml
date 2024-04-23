@@ -22,4 +22,4 @@ jobs:
     - name: Deploy to EC2
       run: |
         scp -i ~/.ssh/id_rsa -r ./ ec2-16-171-31-138.eu-north-1.compute.amazonaws.com:/main
-        ssh -i ~/.ssh/id_rsa ec2-16-171-31-138.eu-north-1.compute.amazonaws.com 'bash -s' < deploy_script.sh
+        ssh -i ~/.ssh/id_rsa ec2-16-171-31-138.eu-north-1.compute.amazonaws.com 'bash -s' < build.sh
