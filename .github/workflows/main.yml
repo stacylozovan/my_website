@@ -1,38 +1,29 @@
-# .github/workflows/ci.yml
-name: CI/CD Pipeline
+name: Deploy and Restart Nginx
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main 
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Build web application
-      run: ./build.sh
-
-    - name: Run tests
-      run: echo "Running tests..." # Implement actual tests here
-
-    - name: Package application
-      run: tar -czvf application.tar.gz dist/
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/download-artifact@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install SSH
+      run: sudo apt-get update && sudo apt-get install -y openssh-client
+
+    - name: Deploy via SSH
+      uses: easingthemes/ssh-deploy@v2.1.6
       with:
-        name: application.tar.gz
-    
-    - name: Deploy to AWS EC2
-      run: |
-        echo "Deploy script runs here" # Use AWS CLI or SSH to deploy
+        server: ${{ secrets.SERVER_IP }} 
+        username: ubuntu 
+        password: ${{ secrets.SSH_KEY_AWS }}  
+        localPath: "." 
+        remotePath: "/var/www/html"  
+
+    - name: Restart Nginx
+      run: sudo systemctl restart nginx
