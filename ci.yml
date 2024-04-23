@@ -50,5 +50,5 @@ jobs:
           echo "$SSH_KEY" | base64 --decode > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H your-instance.amazonaws.com >> ~/.ssh/known_hosts
-          scp -i ~/.ssh/id_rsa application.tar.gz ec2-user@your-instance.amazonaws.com:/var/www/html/
-          ssh -i ~/.ssh/id_rsa ec2-user@your-instance.amazonaws.com "tar -xzvf /var/www/html/application.tar.gz -C /var/www/html/"
+          scp -i ~/.ssh/id_rsa application.tar.gz ec2-16-171-31-138.eu-north-1.compute.amazonaws.com:/var/www/html/
+          ssh -i ~/.ssh/id_rsa ec2-16-171-31-138.eu-north-1.compute.amazonaws.com "tar -xzvf /var/www/html/application.tar.gz -C /var/www/html/"
