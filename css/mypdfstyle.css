@@ -1,49 +1,72 @@
-html   {
-        overflow: auto;
-        font-family: sans-serif;
+/* Apply to the entire HTML and Body */
+html, body {
+    overflow: auto;
+    font-family: sans-serif;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    background-color: #333; /* Fallback color */
 }
 
-html,
-body,
-object {
-        margin: 0px;
-        padding: 0px;
-        height: 100%;
-        border: none;
+/* Ensure objects like iframe and divs occupy the full height and width */
+html, body, object {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    border: none;
 }
 
-div,
-iframe,
-object {
-        display: block;
-        width: 100%;
-        border: none;
-        overflow-y: auto;
-        overflow-x: hidden;
+/* Divs and iframes adjust dynamically to container size */
+div, iframe, object {
+    display: block;
+    width: 100%;
+    border: none;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
+/* Iframe takes 90% of the height */
 iframe {
-        height: 90%;
+    height: 90%;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-div{
-        display: flex;
-        align-items:center;
-        justify-content:space-between;
-        height: 10%;
+/* Navigation div for alignment and spacing */
+div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 10%;
 }
 
-a{
-        color: #0000ff;
-        text-decoration: none;
-        cursor: cell;
+/* Links styling */
+a {
+    color: #0000ff;
+    text-decoration: none;
+    cursor: cell;
+    font-weight: bold;
+    margin: 0 10px;
+    transition: color 0.3s, text-shadow 0.3s;
 }
 
-a:visited{
-        color: #0000ff;
+a:visited {
+    color: #0000ff;
 }
 
-a:hover{
-        color: #ff0000;
-        text-shadow: 1px 1px #ccc;
+a:hover {
+    color: #ff0000;
+    text-shadow: 1px 1px #ccc;
+}
+
+/* Dynamic background container */
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
 }
