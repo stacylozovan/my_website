@@ -1,31 +1,22 @@
-name: Deploy and Restart Nginx
+name: Deploy Static Website to GitHub Pages
 
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Install SSH
-      run: sudo apt-get update && sudo apt-get install -y openssh-client
-
-    - name: Deploy via SSH
-      uses: easingthemes/ssh-deploy@v2.1.6
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY_AWS }}
-        REMOTE_HOST: ${{ secrets.SERVER_IP }}
-        REMOTE_USER: ubuntu
-        REMOTE_PORT: 22
-        SOURCE: "."
-        TARGET: "/var/www/html"
-
-    - name: Restart Nginx
-      run: sudo systemctl restart nginx
-      
+      # Step 2: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./  # Root directory containing your static website files
